@@ -1,0 +1,12 @@
+#! /bin/sh
+#
+# Used in the DrawCircle function in swarm.c
+
+num=$1
+[ "$num" -a "$num" -ne 0 ] 2>/dev/null || {
+	echo 'Requires integer point count parameter greater than zero.' >&2
+	exit 1
+}
+tau=6.28318530718
+echo "slice=$tau/$num;for(i=0;i<=$num;++i){c(slice*i);s(slice*i);}" | bc -l | \
+	sed 'N;s/\(.*\)\n\(.*\)/{\1, \2},/g'
